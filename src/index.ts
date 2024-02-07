@@ -1,39 +1,65 @@
-class Universe {
-  public drawGrid(): void {
-    const canvas = <HTMLCanvasElement>document.getElementById("grid");
+class CanvasManager {
+  private canvas: HTMLCanvasElement;
+  private context: CanvasRenderingContext2D | null;
+
+  constructor(canvasId: string) {
+    this.canvas = <HTMLCanvasElement>document.getElementById(canvasId);
+    this.context = this.canvas.getContext("2d");
+    if (!this.context) {
+      throw new Error("Canvas context is not available");
+    }
+    this.init();
+  }
+
+  private init(): void {
+    this.setupEventListeners();
+    this.drawGrid();
+  }
+
+  private setupEventListeners(): void {
+    this.canvas.addEventListener("mousemove", this.handleMouse.bind(this));
+  }
+
+  private handleMouse(event: MouseEvent): void {
+    // Access this.context safely here
+    if (!this.context) {
+      throw new Error("Canvas context is not available");
+    }
+    // Do something with mouse event
+    console.log("moved mouse");
+  }
+
+  private drawGrid(): void {
+    if (!this.context) {
+      throw new Error("Canvas context is not available");
+    }
     const pixelSize = 16;
     const height = Math.floor(window.innerHeight / pixelSize) * pixelSize;
     const width = Math.floor(window.innerWidth / pixelSize) * pixelSize;
 
-    canvas.setAttribute("height", height.toString());
-    canvas.setAttribute("width", width.toString());
-
-    const context = canvas.getContext("2d");
-    if (!context) {
-      throw new Error("Canvas context is not available");
-    }
+    this.canvas.setAttribute("height", height.toString());
+    this.canvas.setAttribute("width", width.toString());
 
     const cols = Math.floor(width / pixelSize);
     const rows = Math.floor(height / pixelSize);
 
-    context.clearRect(0, 0, width, height);
+    this.context.clearRect(0, 0, width, height);
 
     for (let col = 0; col <= cols; col++) {
       const x = col * pixelSize;
-      context.moveTo(x, 0);
-      context.lineTo(x, rows * pixelSize);
+      this.context.moveTo(x, 0);
+      this.context.lineTo(x, rows * pixelSize);
     }
 
     for (let row = 0; row <= rows; row++) {
       const y = row * pixelSize;
-      context.moveTo(0, y);
-      context.lineTo(cols * pixelSize, y);
+      this.context.moveTo(0, y);
+      this.context.lineTo(cols * pixelSize, y);
     }
 
-    context.strokeStyle = "#000";
-    context.stroke();
+    this.context.strokeStyle = "#000";
+    this.context.stroke();
   }
 }
 
-const universe = new Universe();
-universe.drawGrid();
+const canvasManager = new CanvasManager("grid");
