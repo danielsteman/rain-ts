@@ -36,8 +36,6 @@ class CanvasManager {
       pixelSize,
       pixelSize
     );
-
-    console.log("moved mouse");
   }
 
   private drawGrid(): void {
@@ -51,26 +49,8 @@ class CanvasManager {
     this.canvas.setAttribute("height", height.toString());
     this.canvas.setAttribute("width", width.toString());
 
-    const cols = Math.floor(width / pixelSize);
-    const rows = Math.floor(height / pixelSize);
-
     this.context.clearRect(0, 0, width, height);
-
-    for (let col = 0; col <= cols; col++) {
-      const x = col * pixelSize;
-      this.context.moveTo(x, 0);
-      this.context.lineTo(x, rows * pixelSize);
-    }
-
-    for (let row = 0; row <= rows; row++) {
-      const y = row * pixelSize;
-      this.context.moveTo(0, y);
-      this.context.lineTo(cols * pixelSize, y);
-    }
-
-    this.context.strokeStyle = "#000";
-    this.context.stroke();
   }
 }
 
-const canvasManager = new CanvasManager("grid", 16);
+const canvasManager = new CanvasManager("grid", 8);
