@@ -26,7 +26,14 @@ class CanvasManager {
   }
 
   private handleMouse(event: MouseEvent): void {
-    this.fillPixel(event.offsetX, event.offsetY);
+    this.dropPixel(event.offsetX, event.offsetY);
+  }
+
+  private dropPixel(offsetX: number, offsetY: number): void {
+    this.fillPixel(offsetX, offsetY);
+    const refreshRate = 100;
+
+    // drop pixel to the ground
   }
 
   private setPixel(offsetX: number, offsetY: number, fillColor: string): void {
