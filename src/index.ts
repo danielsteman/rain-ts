@@ -1,16 +1,19 @@
 class CanvasManager {
   private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D | null;
   private pixelSize: number;
 
   constructor(canvasId: string, pixelSize: number) {
     this.canvas = <HTMLCanvasElement>document.getElementById(canvasId);
     this.pixelSize = pixelSize;
-    this.context = this.canvas.getContext("2d");
-    if (!this.context) {
+    this.init();
+  }
+
+  private get context(): CanvasRenderingContext2D {
+    const context = this.canvas.getContext("2d");
+    if (!context) {
       throw new Error("Canvas context is not available");
     }
-    this.init();
+    return context;
   }
 
   private init(): void {
@@ -23,10 +26,6 @@ class CanvasManager {
   }
 
   private handleMouse(event: MouseEvent): void {
-    if (!this.context) {
-      throw new Error("Canvas context is not available");
-    }
-
     this.context.fillStyle = "black";
     const pixelSize = this.pixelSize;
 
@@ -37,6 +36,10 @@ class CanvasManager {
       pixelSize
     );
   }
+
+  private fillPixel(event: MouseEvent): void {}
+
+  private clearPixel(): void {}
 
   private drawGrid(): void {
     if (!this.context) {
