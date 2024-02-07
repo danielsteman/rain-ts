@@ -26,20 +26,36 @@ class CanvasManager {
   }
 
   private handleMouse(event: MouseEvent): void {
-    this.context.fillStyle = "black";
+    this.fillPixel(event.offsetX, event.offsetY);
+  }
+
+  private setPixel(offsetX: number, offsetY: number, fillColor: string): void {
+    this.context.fillStyle = fillColor;
     const pixelSize = this.pixelSize;
 
     this.context.fillRect(
-      Math.floor(event.offsetX / pixelSize) * pixelSize,
-      Math.floor(event.offsetY / pixelSize) * pixelSize,
+      Math.floor(offsetX / pixelSize) * pixelSize,
+      Math.floor(offsetY / pixelSize) * pixelSize,
       pixelSize,
       pixelSize
     );
   }
 
-  private fillPixel(event: MouseEvent): void {}
+  private fillPixel(
+    offsetX: number,
+    offsetY: number,
+    fillColor: string = "black"
+  ): void {
+    this.setPixel(offsetX, offsetY, fillColor);
+  }
 
-  private clearPixel(): void {}
+  private clearPixel(
+    offsetX: number,
+    offsetY: number,
+    fillColor: string = "white"
+  ): void {
+    this.setPixel(offsetX, offsetY, fillColor);
+  }
 
   private drawGrid(): void {
     if (!this.context) {
